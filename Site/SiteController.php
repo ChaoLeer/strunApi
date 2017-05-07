@@ -19,9 +19,9 @@
 //
 // $Id:$
 
+require_once ("../Base/PubFun.php");
 require_once ("SiteHandler.php");
-$view = "";
-if (isset($_GET["view"])) $view = $_GET["view"];
+
 /*
  * RESTful service 控制器
  * URL 映射
@@ -38,9 +38,12 @@ switch ($view) {
         $siteRestHandler = new SiteHandler();
         $siteRestHandler->getSite($_GET["id"]);
         break;
-
-    case "":
-        //404 - not found;
+    default:
+        $resInfo = array(
+            'error' => '请求错误!'
+        );
+        $pubfun = new PubFun();
+        $pubfun -> setErrorCode($resInfo, 417);
         break;
 }
 ?>

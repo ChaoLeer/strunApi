@@ -41,16 +41,19 @@
         }
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $this->setHttpHeaders($requestContentType, $statusCode);
-        if (strpos($requestContentType, 'application/json') !== false) {
-            $response = $this->encodeJson($rawData);
-            echo $response;
-        } else if (strpos($requestContentType, 'text/html') !== false) {
-            $response = $this->encodeHtml($rawData);
-            echo $response;
-        } else if (strpos($requestContentType, 'application/xml') !== false) {
-            $response = $this->encodeXml($rawData);
-            echo $response;
-        }
+        // if (strpos($requestContentType, 'application/json') !== false) {
+        //     $response = $this->encodeJson($rawData);
+        //     echo $response;
+        // } else if (strpos($requestContentType, 'text/html') !== false) {
+        //     $response = $this->encodeHtml($rawData);
+        //     echo $response;
+        // } else if (strpos($requestContentType, 'application/xml') !== false) {
+        //     $response = $this->encodeXml($rawData);
+        //     echo $response;
+        // }
+        // echo "                                                                ";
+        $response = json_encode($rawData);
+        echo $response;
     }
   }
 

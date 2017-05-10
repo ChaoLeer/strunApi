@@ -28,24 +28,12 @@ Class User {
     public function getAllUsers() {
         $user_sql = "select * from strun_userinfo";
         $mysql = new MySQL();
-        $user_res = $mysql -> linkSql($user_sql);
-        $field_count=mysqli_num_fields($user_res);
-        $usertemp = mysqli_fetch_all($user_res);
-        $userlist = array();
-        foreach($usertemp as $key => $value) {
-            // print_r($value);
-            $temp = array();
-            for ($i = 0;$i < $field_count; ++$i) {
-                $field_info = mysqli_fetch_field_direct($user_res, $i);
-                // print_r($field_info -> name);
-                $subkey = str_replace('_', '', strtolower($field_info->name));
-                $subtemp = array(
-                    $subkey => $value[$i]
-                );
-                $temp = array_merge($temp, $subtemp);
-            }
-            array_push($userlist, $temp);
-        }
+        // $user_list = $mysql -> linkSql($user_sql);
+        $con = $mysql -> connectSQL();
+        $user_list_temp = $mysql -> getDatas($con, $user_sql);
+        // $user_list = $mysql -> dpDatas($user_list_temp);
+        // print_r($user_list_temp);
+       
         // $test = $field_info -> name;
         // print_r(str_replace('_', '', strtolower($test)));
         // $temp = array();
@@ -54,7 +42,7 @@ Class User {
         //     print_r($temp);
         // }
         // print_r(json_encode($usertemp));
-        $this->users = $userlist;
+        $this->users = $user_list_temp;
         return $this->users;
     }
     public function getUser($id) {

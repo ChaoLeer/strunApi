@@ -26,7 +26,7 @@ require_once ("UserHandler.php");
  * RESTful service 控制器
  * URL 映射
 */
-switch ($view) {
+switch ($path) {
     case "all":
         // 处理 REST Url /site/list/
         $userRestHandler = new UserHandler();
@@ -38,6 +38,13 @@ switch ($view) {
         $userRestHandler = new UserHandler();
         $userRestHandler->getUser($_GET["id"]);
         break;
+
+    case "login":
+        // 处理 REST Url /site/show/<id>/
+        $userRestHandler = new UserHandler();
+        $userRestHandler->getUser($_GET["id"]);
+        break;
+
     default:
         $resInfo = array(
             'error' => '请求错误!'

@@ -52,7 +52,8 @@
         //     echo $response;
         // }
         // echo "                                                                ";
-        $response = json_encode($rawData);
+        // print_r($rawData);
+        $response = $this->encodeJson($rawData);
         echo $response;
     }
   }

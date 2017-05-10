@@ -19,13 +19,13 @@
 //
 // $Id:$
 
+// header("ACCESS-CONTROL-ALLOW-ORIGIN:http://www.strun.club");
 require_once ("../Base/PubFun.php");
 require_once ("User.php");
 header('Access-Control-Allow-Origin:*');
-$view = "";
-if (isset($_GET["view"])) $view = $_GET["view"];
-if (isset($_POST["view"])) $view = $_POST["view"];
-// header('Access-Control-Allow-Origin:http://www.strun.club');
+$path = "";
+if (isset($_GET["path"])) $path = $_GET["path"];
+if (isset($_POST["path"])) $path = $_POST["path"];
 class UserHandler extends Rest {
     function getAllUsers() {
         $user = new User();

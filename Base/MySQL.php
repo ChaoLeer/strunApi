@@ -37,7 +37,25 @@ class MySQL{
     $conn->close();
   }
 
-  // 查询数据
+  // 查询单数据
+  function getSingleDatas ($conn, $sql) {
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $res = $this -> dpSingleDatas($result);
+        // print_r($res);
+        // print_r($res);
+        // 输出数据
+        return $res;
+    } else {
+        $message = array(
+          'message' => '数据为空'
+        );
+        // echo json_encode($message);
+        // echo "0 结果";
+    }
+    $conn->close();
+  }
+  // 查询多条数据
   function getDatas ($conn, $sql) {
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -47,7 +65,10 @@ class MySQL{
         // 输出数据
         return $res;
     } else {
-        echo "0 结果";
+        $message = array(
+          'message' => '数据为空'
+        );
+        // echo json_encode($message);
     }
     $conn->close();
   }
@@ -55,9 +76,15 @@ class MySQL{
   function update ($conn, $sql) {
     $result = $conn->query($query);
     if ($result){
-      echo "更新操作执行成功";
+      $message = array(
+        'message' => '更新操作执行成功'
+      );
+      echo json_encode($message);
     }else {
-      echo "更新操作执行失败";
+      $message = array(
+        'message' => '更新操作执行失败'
+      );
+      echo json_encode($message);
     }
     $conn->close();
   }
@@ -66,14 +93,46 @@ class MySQL{
   function delete ($conn, $sql) {
     $result = $conn->query($query);
     if ($result){
-      echo "删除操作执行成功";
+      $message = array(
+        'message' => '删除操作执行成功'
+      );
+      echo json_encode($message);
     }else {
-      echo "删除操作执行失败";
+      $message = array(
+        'message' => '删除操作执行失败'
+      );
+      echo json_encode($message);
     }
     $conn->close();
   }
 
-  // 处理数据，返回json数组
+  // 处理单条数据，返回json数组
+  function dpSingleDatas ($sql_res) {
+    $field_count=mysqli_num_fields($sql_res);
+    $restemp = mysqli_fetch_all($sql_res)[0];
+    $p_res = array();
+    // print_r($restemp);
+    for ($i = 0;$i < $field_count; ++$i) {
+        $temp = array();
+        $field_info = mysqli_fetch_field_direct($sql_res, $i);
+        // print_r($field_info -> name);
+        $p_reskey = str_replace('_', '', strtolower($field_info->name));
+        $temp = array(
+            $p_reskey => $restemp[$i]
+        );
+        if ($p_reskey != 'password') {
+          $p_res = array_merge($p_res, $temp);
+        }
+        // print_r($p_res);
+    }
+    // foreach($restemp as $key => $value) {
+    //     // print_r($value);
+    //     $temp = array();
+        
+    // }
+    return $p_res;
+  }
+  // 处理多条数据，返回json数组
   function dpDatas ($sql_res) {
     $field_count=mysqli_num_fields($sql_res);
     $restemp = mysqli_fetch_all($sql_res);
@@ -88,7 +147,9 @@ class MySQL{
             $subtemp = array(
                 $subkey => $value[$i]
             );
-            $temp = array_merge($temp, $subtemp);
+            // if ($subkey != 'password') {
+              $temp = array_merge($temp, $subtemp);
+            // }
         }
         array_push($p_res, $temp);
     }

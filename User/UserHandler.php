@@ -22,7 +22,6 @@
 // header("ACCESS-CONTROL-ALLOW-ORIGIN:http://www.strun.club");
 require_once ("../Base/PubFun.php");
 require_once ("User.php");
-header('Access-Control-Allow-Origin:*');
 $path = "";
 if (isset($_GET["path"])) $path = $_GET["path"];
 if (isset($_POST["path"])) $path = $_POST["path"];
@@ -42,6 +41,16 @@ class UserHandler extends Rest {
         $pubfun = new PubFun();
         $notFoundRes = array(
             'error' => 'No users found!'
+        );
+        $pubfun -> responseDatas($rawData, $notFoundRes);
+    }
+    public function login($lnm, $psw) {
+        $user = new User();
+        $rawData = $user->login($lnm, $psw);
+        // print_r($rawData);
+        $pubfun = new PubFun();
+        $notFoundRes = array(
+            'message' => '用户名或密码不正确！'
         );
         $pubfun -> responseDatas($rawData, $notFoundRes);
     }

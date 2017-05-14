@@ -51,5 +51,15 @@ Class User {
         );
         return $user;
     }
+    public function login($lnm, $psw) {
+        $login_sql = "SELECT * from strun_userinfo WHERE LOGIN_NAME='".$lnm."' AND PASSWORD='".$psw."'";
+        // $login_sql = "SELECT * from strun_userinfo WHERE LOGIN_NAME='steven' AND PASSWORD='1f3c71b227f1b77bc4355cb00adbc789'";
+        $mysql = new MySQL();
+        $con = $mysql -> connectSQL();
+        $user_list_temp = $mysql -> getSingleDatas($con, $login_sql);
+        // print_r(json_encode($user_list_temp));
+        $this->users = $user_list_temp;
+        return $this->users;
+    }
 }
 ?>

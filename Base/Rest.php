@@ -8,11 +8,16 @@ class Rest {
     private $httpVersion = "HTTP/1.1";
  
     public function setHttpHeaders($contentType, $statusCode){
+        header('Access-Control-Allow-Origin:*');
+        // header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+        // header("Access-Control-Allow-Headers: Content-Type, Accept, Authorization, X-Requested-With, Origin");
         
         $statusMessage = $this -> getHttpStatusMessage($statusCode);
         
-        header($this->httpVersion. " ". $statusCode ." ". $statusMessage);        
+        header($this->httpVersion. " ". $statusCode ." ". $statusMessage);
+        // header("Content-type:application/json;charset=utf-8");
         header("Content-Type:". $contentType);
+
     }
     
     public function getHttpStatusMessage($statusCode){

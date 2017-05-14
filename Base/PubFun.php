@@ -39,6 +39,7 @@
         } else {
             $statusCode = 200;
         }
+        // $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $this->setHttpHeaders($requestContentType, $statusCode);
         // if (strpos($requestContentType, 'application/json') !== false) {

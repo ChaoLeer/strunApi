@@ -2,7 +2,7 @@
   /**
   * 公共类
   */
-  require_once ("../Base/Rest.php");
+  require_once ("Rest.php");
   class PubFun extends Rest {
     public function encodeHtml($responseData) {
         $htmlResponse = "<table border='1'>";
@@ -39,22 +39,22 @@
         } else {
             $statusCode = 200;
         }
-        // $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $this->setHttpHeaders($requestContentType, $statusCode);
-        // if (strpos($requestContentType, 'application/json') !== false) {
-        //     $response = $this->encodeJson($rawData);
-        //     echo $response;
-        // } else if (strpos($requestContentType, 'text/html') !== false) {
-        //     $response = $this->encodeHtml($rawData);
-        //     echo $response;
-        // } else if (strpos($requestContentType, 'application/xml') !== false) {
-        //     $response = $this->encodeXml($rawData);
-        //     echo $response;
-        // }
-        // echo "                                                                ";
-        // print_r($rawData);
         $response = $this->encodeJson($rawData);
+        echo $response;
+    }
+    public function responseInsertResult ($resState, $faildMessage) {
+        if ($resState) {
+            $statusCode = 200;
+            $responseData = array('message' => '新增成功');
+        } else {
+            $statusCode = 417;
+            $responseData = $faildMessage;
+        }
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $this->setHttpHeaders($requestContentType, $statusCode);
+        $response = $this->encodeJson($responseData);
         echo $response;
     }
   }

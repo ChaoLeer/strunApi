@@ -13,10 +13,12 @@
     $('button').click(function () {
       var url = 'http://192.168.1.102/strunApi/Site/SiteController.php';
       var url = 'http://192.168.1.102/strunApi/User/findUserAll.php';
+      var url = 'http://192.168.1.102/strunApi/Article/findByArticleId.php';
       $.ajax({
-        method: 'get',
+        method: 'post',
         url: url,
         dataType: 'json',
+        data: {'userid': 'b91aacd034c311e7bec600163e055a14','articleid': 'c42d0bbc397e11e7bec600163e055a14'},
         // contentType: 'application/json; charset=utf-8',
         success: function (data) {
           console.log(data)

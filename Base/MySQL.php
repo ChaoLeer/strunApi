@@ -20,9 +20,9 @@ class MySQL{
   // 增加
   function insert ($conn, $sql) {
     if ($conn->query($sql) === TRUE) {
-        echo "增加成功";
+      return true;
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+      return false;
     }
     $conn->close();
   }
@@ -30,9 +30,13 @@ class MySQL{
   // 增加多条数据 $sql使用$sql .= "INSERT INTO ;"连续赋值以分号分隔
   function insertMulti ($conn, $sql) {
     if ($conn->multi_query($sql) === TRUE) {
-        echo "增加成功";
+        // echo "增加成功";
+      // return array(
+      //   "message" => "增加成功！" 
+      // );
+      return true;
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+      return false;
     }
     $conn->close();
   }

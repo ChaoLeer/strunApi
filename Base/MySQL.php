@@ -20,9 +20,10 @@ class MySQL{
   // 增加
   function insert ($conn, $sql) {
     if ($conn->query($sql) === TRUE) {
-      return true;
+		return true;
     } else {
-      return false;
+		echo $conn->error;
+		return false;
     }
     $conn->close();
   }

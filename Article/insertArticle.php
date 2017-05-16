@@ -1,6 +1,14 @@
 <?php
   // 登录
         // header('Access-Control-Allow-Origin:*');
+//header('Access-Control-Allow-Origin', '*');
+//header("Access-Control-Max-Age: 86400"); 
+//header("Access-Control-Allow-Headers: Content-Type"); 
+//header("Access-Control-Allow-Methods: OPTIONS, GET, PUT, POST, DELETE");
+if($_SERVER['REQUEST_METHOD']=="OPTIONS") {
+    $rest = new PubFun();
+    $rest->resResult(true);
+}
   require_once ("../Base/PubFun.php");
   require_once ("ArticleHandler.php");
   if(isset($_POST['userid'])

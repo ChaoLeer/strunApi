@@ -42,6 +42,7 @@ Class Article {
         return $this->articles;
     }
     public function insertArticle($userid, $title,$author, $articleintro,$content, $classify) {
+		print_r($content);
         $insert_sql = "INSERT INTO `strun_article` (
                         `ARTICLE_ID`,
                         `AUTHOR`,
@@ -66,9 +67,7 @@ Class Article {
                             REPLACE(UUID(),'-','')),
                             '".$author."',
                             '".$userid."',
-                            '".$title."',
-                            '".$content."',
-                            (select now()),
+                            '".$title."',".(string)$content.",(select now()),
                             '".$articleintro."',
                             NULL,
                             NULL,

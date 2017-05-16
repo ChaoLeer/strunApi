@@ -28,7 +28,8 @@
     public function setErrorCode ($resInfo, $statusCustomErrorCode) {
         // $siteRestHandler = new SiteHandler();
         $response = $this->encodeJson($resInfo);
-        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        //$requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $requestContentType = 'application/json;charset=utf-8';
         $this->setHttpHeaders($requestContentType, $statusCustomErrorCode);
         echo $response;
     }
@@ -57,6 +58,15 @@
         $response = $this->encodeJson($responseData);
         echo $response;
     }
+	public function resResult($res) {
+		if ($res) {
+			$statusCode = 200;
+		} else {
+			$statusCode = 417;
+		}
+		$requestContentType = $_SERVER['HTTP_ACCEPT'];
+		$this->setHttpHeaders($requestContentType, $statusCode);
+	}
   }
 
 ?>

@@ -19,12 +19,9 @@
 //
 // $Id:$
 
-// header("ACCESS-CONTROL-ALLOW-ORIGIN:http://www.strun.club");
 require_once ("../Base/PubFun.php");
 require_once ("Article.php");
-$path = "";
-if (isset($_GET["path"])) $path = $_GET["path"];
-if (isset($_POST["path"])) $path = $_POST["path"];
+header('Access-Control-Allow-Origin:*');
 class ArticleHandler extends Rest {
     function getAllArticles() {
         $articles = new Article();

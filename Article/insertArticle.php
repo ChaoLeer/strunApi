@@ -1,10 +1,11 @@
 <?php
   // 登录
         // header('Access-Control-Allow-Origin:*');
-//header('Access-Control-Allow-Origin', '*');
-//header("Access-Control-Max-Age: 86400"); 
-//header("Access-Control-Allow-Headers: Content-Type"); 
-//header("Access-Control-Allow-Methods: OPTIONS, GET, PUT, POST, DELETE");
+// header('Access-Control-Allow-Origin', '*');
+// header("Access-Control-Max-Age: 86400"); 
+// header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"); 
+// header("Access-Control-Allow-Methods: OPTIONS, GET, PUT, POST, DELETE");
+// header("ACCESS-CONTROL-ALLOW-ORIGIN:*");
 if($_SERVER['REQUEST_METHOD']=="OPTIONS") {
     $rest = new PubFun();
     $rest->resResult(true);

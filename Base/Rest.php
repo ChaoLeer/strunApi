@@ -9,11 +9,11 @@ class Rest {
  
     public function setHttpHeaders($contentType, $statusCode){
         //header('Access-Control-Allow-Origin:*');
-		header('Access-Control-Allow-Origin', '*');
 		//header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
         // header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
         //header("Access-Control-Allow-Headers: Content-Type, Accept, Authorization, X-Requested-With, Origin");
         
+        header('Access-Control-Allow-Origin', '*');
         $statusMessage = $this -> getHttpStatusMessage($statusCode);
         
         header($this->httpVersion. " ". $statusCode ." ". $statusMessage);

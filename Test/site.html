@@ -11,9 +11,10 @@
 <script type="text/javascript">
   $(function () {
     $('button').click(function () {
-      var url = 'http://192.168.1.102/strunApi/Site/SiteController.php';
-      var url = 'http://192.168.1.102/strunApi/User/findUserAll.php';
-      var url = 'http://192.168.1.102/strunApi/Article/findByArticleId.php';
+      var url = 'http://192.168.1.101/strunApi/Site/SiteController.php';
+      // var url = 'http://192.168.1.102/strunApi/User/findUserAll.php';
+      var url = 'http://192.168.1.101/gitStrun/strunApi/Article/findAll.php';
+      var url = 'http://192.168.1.101/strunApi/Article/findAll.php';
       $.ajax({
         method: 'post',
         url: url,

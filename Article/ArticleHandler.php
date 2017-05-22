@@ -21,9 +21,9 @@
 
 require_once ("../Base/PubFun.php");
 require_once ("Article.php");
-header('Access-Control-Allow-Origin:*');
+// header('Access-Control-Allow-Origin:*');
 class ArticleHandler extends Rest {
-    function getAllArticles() {
+    public function getAllArticles() {
         $articles = new Article();
         $rawData = $articles->getAllArticles();
         $pubfun = new PubFun();
@@ -44,7 +44,7 @@ class ArticleHandler extends Rest {
     public function insertArticle($userid, $title,$author, $articleintro,$content, $classify) {
         $articles = new Article();
         $insertResult = $articles->insertArticle($userid, $title,$author, $articleintro,$content, $classify);
-        echo ($insertResult);
+        // echo ($insertResult);
         $pubfun = new PubFun();
         $notFoundRes = array(
             'message' => '提交失败！'

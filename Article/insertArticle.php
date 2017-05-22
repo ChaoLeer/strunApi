@@ -1,15 +1,11 @@
 <?php
   // 登录
-        // header('Access-Control-Allow-Origin:*');
+        //header('Access-Control-Allow-Origin:*');
 // header('Access-Control-Allow-Origin', '*');
 // header("Access-Control-Max-Age: 86400"); 
 // header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"); 
 // header("Access-Control-Allow-Methods: OPTIONS, GET, PUT, POST, DELETE");
-// header("ACCESS-CONTROL-ALLOW-ORIGIN:*");
-if($_SERVER['REQUEST_METHOD']=="OPTIONS") {
-    $rest = new PubFun();
-    $rest->resResult(true);
-}
+header("ACCESS-CONTROL-ALLOW-ORIGIN:*");
   require_once ("../Base/PubFun.php");
   require_once ("ArticleHandler.php");
   if(isset($_POST['userid'])
@@ -25,7 +21,11 @@ if($_SERVER['REQUEST_METHOD']=="OPTIONS") {
     $articleintro = $_POST['articleintro'];
     $content = $_POST['content'];
     $classify = $_POST['classify'];
-
+	if (!get_magic_quotes_gpc()) {
+		$content=addslashes($_POST['content']);
+	} else {
+		$content=$_POST['content' ];
+	}
     $articleRestHandler = new ArticleHandler();
     $articleRestHandler->insertArticle($userid, $title,$author, $articleintro,$content, $classify);
   } else {

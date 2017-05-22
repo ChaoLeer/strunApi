@@ -34,6 +34,8 @@
         echo $response;
     }
     public function responseDatas ($rawData, $notFoundRes) {
+        // print_r($rawData);
+        // print_r($rawData);
       if (empty($rawData)) {
             $statusCode = 404;
             $rawData = $notFoundRes;

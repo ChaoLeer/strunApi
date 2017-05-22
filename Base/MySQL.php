@@ -1,19 +1,21 @@
 <?php 
-define('DB_HOST', 'qdm169152214.my3w.com:3306');  
-define('DB_USER', 'qdm169152214');  
-define('DB_PWD', 'loveqin277');  
-define('DB_CHARSET', 'UTF8');  
-define('DB_DBNAME', 'qdm169152214_db');
 class MySQL{
   function connectSQL () {
+  	$servername = "qdm169152214.my3w.com";
+  	$username = "qdm169152214";
+  	$password = "loveqin277";
+  	$dbname = "qdm169152214_db";
     // 创建连接
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_DBNAME);
+    $conn = new mysqli($servername, $username, $password, $dbname);
     // 检测连接
     if ($conn->connect_error) {
         die("连接失败: " . $conn->connect_error);
     }
     // echo "连接成功";
     $conn -> set_charset('utf8');
+  	// $sql = "SELECT * FROM strun_article";
+  	// $result = $conn->query($sql);
+  	// print_r($result);
     return $conn;
   }
 
@@ -62,11 +64,12 @@ class MySQL{
   }
   // 查询多条数据
   function getDatas ($conn, $sql) {
-    $result = $conn->query($sql);
+    // $result = $conn->query($sql);
+    $result = mysqli_query($conn, $sql);
+    // print_r($result -> num_rows);
     if ($result->num_rows > 0) {
-        // print_r($result);
+        // print_r($result->fetch_assoc());
         $res = $this -> dpDatas($result);
-        // print_r($res);
         // 输出数据
         return $res;
     } else {
@@ -114,7 +117,14 @@ class MySQL{
   // 处理单条数据，返回json数组
   function dpSingleDatas ($sql_res) {
     $field_count=mysqli_num_fields($sql_res);
-    $restemp = mysqli_fetch_all($sql_res)[0];
+    // $restemp = mysqli_fetch_all($sql_res)[0];
+    $p_res = array();
+    while($row = $sql_res->fetch_assoc()) {
+      // print_r($row);
+      array_push($p_res, $row);
+    }
+    $restemp = $p_res[0];
+        // print_r($restemp);
     $p_res = array();
     // print_r($restemp);
     for ($i = 0;$i < $field_count; ++$i) {
@@ -123,7 +133,7 @@ class MySQL{
         // print_r($field_info -> name);
         $p_reskey = str_replace('_', '', strtolower($field_info->name));
         $temp = array(
-            $p_reskey => $restemp[$i]
+            $p_reskey => $restemp[$field_info->name]
         );
         if ($p_reskey != 'password') {
           $p_res = array_merge($p_res, $temp);
@@ -140,17 +150,29 @@ class MySQL{
   // 处理多条数据，返回json数组
   function dpDatas ($sql_res) {
     $field_count=mysqli_num_fields($sql_res);
-    $restemp = mysqli_fetch_all($sql_res);
+    // print_r($sql_res);
+    // print_r(mysqli_fetch_fields($sql_res));
     $p_res = array();
+    while($row = $sql_res->fetch_assoc()) {
+      // print_r($row);
+      array_push($p_res, $row);
+    }
+    $restemp = $p_res;
+    $p_res = array();
+    // print_r($p_res);
+    // $restemp = mysqli_fetch_all($sql_res);
+    // $p_res = array();
     foreach($restemp as $key => $value) {
         // print_r($value);
         $temp = array();
         for ($i = 0;$i < $field_count; ++$i) {
             $field_info = mysqli_fetch_field_direct($sql_res, $i);
-            // print_r($field_info -> name);
             $subkey = str_replace('_', '', strtolower($field_info->name));
+            // echo "*************************";
+            // print_r($field_info);
+            // echo "*************************";
             $subtemp = array(
-                $subkey => $value[$i]
+                $subkey => $value[$field_info->name]
             );
             // if ($subkey != 'password') {
               $temp = array_merge($temp, $subtemp);

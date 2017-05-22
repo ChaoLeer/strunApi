@@ -19,7 +19,7 @@
 //
 // $Id:$
 
-header("ACCESS-CONTROL-ALLOW-ORIGIN:*");
+// header("ACCESS-CONTROL-ALLOW-ORIGIN:*");
 require_once ("../Base/PubFun.php");
 require_once ("User.php");
 $path = "";

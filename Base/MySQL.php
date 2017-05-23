@@ -1,10 +1,10 @@
 <?php 
 class MySQL{
   function connectSQL () {
-  	$servername = "qdm169152214.my3w.com";
-  	$username = "qdm169152214";
-  	$password = "loveqin277";
-  	$dbname = "qdm169152214_db";
+  	$servername = "主机";
+  	$username = "用户";
+  	$password = "密码";
+  	$dbname = "数据库";
     // 创建连接
     $conn = new mysqli($servername, $username, $password, $dbname);
     // 检测连接

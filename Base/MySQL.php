@@ -1,6 +1,7 @@
-<?php 
+<?php
 class MySQL{
   function connectSQL () {
+    //部署时不带端口
   	$servername = "主机";
   	$username = "用户";
   	$password = "密码";
@@ -35,7 +36,7 @@ class MySQL{
     if ($conn->multi_query($sql) === TRUE) {
         // echo "增加成功";
       // return array(
-      //   "message" => "增加成功！" 
+      //   "message" => "增加成功！"
       // );
       return true;
     } else {
@@ -82,17 +83,20 @@ class MySQL{
   }
   // 更新
   function update ($conn, $sql) {
-    $result = $conn->query($query);
+    $result = mysqli_query($conn, $sql);
     if ($result){
-      $message = array(
-        'message' => '更新操作执行成功'
-      );
-      echo json_encode($message);
+      return true;
+      // $message = array(
+      //   'message' => '更新操作执行成功'
+      // );
+      // echo json_encode($message);
     }else {
-      $message = array(
-        'message' => '更新操作执行失败'
-      );
-      echo json_encode($message);
+	    echo $conn->error;
+      return false;
+      // $message = array(
+      //   'message' => '更新操作执行失败'
+      // );
+      // echo json_encode($message);
     }
     $conn->close();
   }
@@ -143,7 +147,7 @@ class MySQL{
     // foreach($restemp as $key => $value) {
     //     // print_r($value);
     //     $temp = array();
-        
+
     // }
     return $p_res;
   }

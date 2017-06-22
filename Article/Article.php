@@ -45,7 +45,7 @@ Class Article {
     }
     public function insertArticle($userid, $title,$author, $articleintro,$content, $classify) {
 		// print_r($content);
-		
+
         $insert_sql = "INSERT INTO `strun_article` (
                         `ARTICLE_ID`,
                         `AUTHOR`,
@@ -88,6 +88,20 @@ Class Article {
         $con = $mysql -> connectSQL();
         $insert_res = $mysql -> insert($con, $insert_sql);
         return $insert_res;
+    }
+    public function updateArticle($articleid,$userid, $title,$author, $articleintro,$content, $classify) {
+		// print_r($content);
+
+        $update_sql = "UPDATE `strun_article`
+                      SET `TITLE`='".$title."',
+                        `CONTENT`='".$content."',
+                        `ARTICLE_INTRO`='".$articleintro."',
+                        `CLASSIFY`='".$classify."' WHERE `ARTICLE_ID`='".$articleid."'";
+        $mysql = new MySQL();
+        $con = $mysql -> connectSQL();
+        $update_res = $mysql -> update($con, $update_sql);
+        echo $update_res;
+        return $update_res;
     }
 }
 ?>

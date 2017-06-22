@@ -1,4 +1,4 @@
-<?php 
+<?php
   /**
   * 公共类
   */
@@ -51,6 +51,19 @@
         if ($resState) {
             $statusCode = 200;
             $responseData = array('message' => '新增成功');
+        } else {
+            $statusCode = 417;
+            $responseData = $faildMessage;
+        }
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $this->setHttpHeaders($requestContentType, $statusCode);
+        $response = $this->encodeJson($responseData);
+        echo $response;
+    }
+    public function responseUpdateResult ($resState, $faildMessage) {
+        if ($resState) {
+            $statusCode = 200;
+            $responseData = array('message' => '修改成功');
         } else {
             $statusCode = 417;
             $responseData = $faildMessage;

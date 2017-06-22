@@ -19,9 +19,9 @@
 //
 // $Id:$
 
+// header('Access-Control-Allow-Origin:*');
 require_once ("../Base/PubFun.php");
 require_once ("Article.php");
-// header('Access-Control-Allow-Origin:*');
 class ArticleHandler extends Rest {
     public function getAllArticles() {
         $articles = new Article();
@@ -50,6 +50,16 @@ class ArticleHandler extends Rest {
             'message' => '提交失败！'
         );
         $pubfun -> responseInsertResult($insertResult, $notFoundRes);
+    }
+    public function updateArticle($articleid,$userid, $title,$author, $articleintro,$content, $classify) {
+        $articles = new Article();
+        $updateResult = $articles->updateArticle($articleid,$userid, $title,$author, $articleintro,$content, $classify);
+        // echo ($updateResult);
+        $pubfun = new PubFun();
+        $notFoundRes = array(
+            'message' => '提交失败！'
+        );
+        $pubfun -> responseUpdateResult($updateResult, $notFoundRes);
     }
 }
 ?>

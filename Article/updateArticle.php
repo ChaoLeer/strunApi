@@ -9,12 +9,14 @@
   require_once ("../Base/PubFun.php");
   require_once ("ArticleHandler.php");
   if(isset($_POST['userid'])
+    &&isset($_POST['articleid'])
     &&isset($_POST['title'])
     &&isset($_POST['author'])
     &&isset($_POST['articleintro'])
     &&isset($_POST['content'])
     &&isset($_POST['classify'])
   ) {
+    $articleid = $_POST['articleid'];
     $userid = $_POST['userid'];
     $title = $_POST['title'];
     $author = $_POST['author'];
@@ -25,15 +27,16 @@
   	} else {
   		$content=$_POST['content' ];
   		$articleintro=$_POST['articleintro' ];
+      echo "string";
   	}
     $articleRestHandler = new ArticleHandler();
-    $articleRestHandler->insertArticle($userid, $title,$author, $articleintro,$content, $classify);
+    $articleRestHandler->updateArticle($articleid, $userid, $title,$author, $articleintro,$content, $classify);
   } else {
     $message = array(
       'message' => '数据提交有误'
     );
     $rest = new PubFun();
-    $rest->responseInsertResult(false, $message);
+    $rest->responseUpdateResult(false, $message);
     // echo json_encode($message);
   };
 

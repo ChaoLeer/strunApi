@@ -1,18 +1,32 @@
 <?php
+require_once ("PubFun.php");
 class MySQL{
+  public $mysqlState = false;
   function connectSQL () {
     //部署时不带端口
   	$servername = "主机";
   	$username = "用户";
   	$password = "密码";
   	$dbname = "数据库";
+
+  	$servername = "qdm169152214.my3w.com:3306";
+  	$username = "qdm169152214";
+  	$password = "loveqin277";
+  	$dbname = "qdm169152214_db";
     // 创建连接
     $conn = new mysqli($servername, $username, $password, $dbname);
     // 检测连接
     if ($conn->connect_error) {
-        die("连接失败: " . $conn->connect_error);
+        $pubfun = new PubFun();
+        $connectError = array(
+            'error' => "mysql link error"
+        );
+        $pubfun -> responseMysqlError($connectError);
+        $this->mysqlState = false;
+        return false;
+        // die("连接失败: " . $conn->connect_error);
     }
-    // echo "连接成功";
+    $this->mysqlState = true;
     $conn -> set_charset('utf8');
   	// $sql = "SELECT * FROM strun_article";
   	// $result = $conn->query($sql);
@@ -22,98 +36,114 @@ class MySQL{
 
   // 增加
   function insert ($conn, $sql) {
-    if ($conn->query($sql) === TRUE) {
-		return true;
-    } else {
-		echo $conn->error;
-		return false;
+    if ($this->mysqlState) {
+      if ($conn->query($sql) === TRUE) {
+        return true;
+      } else {
+        echo $conn->error;
+        return false;
+      }
     }
     $conn->close();
   }
 
   // 增加多条数据 $sql使用$sql .= "INSERT INTO ;"连续赋值以分号分隔
   function insertMulti ($conn, $sql) {
-    if ($conn->multi_query($sql) === TRUE) {
+    if ($this->mysqlState) {
+      if ($conn->multi_query($sql) === TRUE) {
         // echo "增加成功";
-      // return array(
-      //   "message" => "增加成功！"
-      // );
-      return true;
-    } else {
-      return false;
+        // return array(
+        //   "message" => "增加成功！"
+        // );
+        return true;
+      } else {
+        return false;
+      }
     }
     $conn->close();
   }
 
   // 查询单数据
   function getSingleDatas ($conn, $sql) {
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
+    if ($this->mysqlState) {
+      # code...
+      $result = $conn->query($sql);
+      if ($result->num_rows > 0) {
         $res = $this -> dpSingleDatas($result);
         // print_r($res);
         // print_r($res);
         // 输出数据
         return $res;
-    } else {
+      } else {
         $message = array(
           'message' => '数据为空'
         );
         // echo json_encode($message);
         // echo "0 结果";
+      }
     }
     $conn->close();
   }
   // 查询多条数据
   function getDatas ($conn, $sql) {
-    // $result = $conn->query($sql);
-    $result = mysqli_query($conn, $sql);
-    // print_r($result -> num_rows);
-    if ($result->num_rows > 0) {
+    if ($this->mysqlState) {
+      # code...
+      // $result = $conn->query($sql);
+      $result = mysqli_query($conn, $sql);
+      // print_r($result -> num_rows);
+      if ($result->num_rows > 0) {
         // print_r($result->fetch_assoc());
         $res = $this -> dpDatas($result);
         // 输出数据
         return $res;
-    } else {
+      } else {
         $message = array(
           'message' => '数据为空'
         );
         // echo json_encode($message);
+      }
     }
     $conn->close();
   }
   // 更新
   function update ($conn, $sql) {
-    $result = mysqli_query($conn, $sql);
-    if ($result){
-      return true;
-      // $message = array(
-      //   'message' => '更新操作执行成功'
-      // );
-      // echo json_encode($message);
-    }else {
-	    echo $conn->error;
-      return false;
-      // $message = array(
-      //   'message' => '更新操作执行失败'
-      // );
-      // echo json_encode($message);
+    if ($this->mysqlState) {
+      # code...
+      $result = mysqli_query($conn, $sql);
+      if ($result){
+        return true;
+        // $message = array(
+        //   'message' => '更新操作执行成功'
+        // );
+        // echo json_encode($message);
+      }else {
+        echo $conn->error;
+        return false;
+        // $message = array(
+        //   'message' => '更新操作执行失败'
+        // );
+        // echo json_encode($message);
+      }
     }
     $conn->close();
   }
 
   // 删除
   function delete ($conn, $sql) {
-    $result = $conn->query($query);
-    if ($result){
-      $message = array(
-        'message' => '删除操作执行成功'
-      );
-      echo json_encode($message);
-    }else {
-      $message = array(
-        'message' => '删除操作执行失败'
-      );
-      echo json_encode($message);
+    if (condition) {
+      # code...
+      $result = $conn->query($query);
+      if ($result){
+        $message = array(
+          'message' => '删除操作执行成功'
+        );
+        echo json_encode($message);
+      }else {
+        $message = array(
+          'message' => '删除操作执行失败'
+        );
+        echo json_encode($message);
+      }
     }
     $conn->close();
   }

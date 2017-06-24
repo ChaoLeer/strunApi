@@ -33,6 +33,14 @@
         $this->setHttpHeaders($requestContentType, $statusCustomErrorCode);
         echo $response;
     }
+    public function responseMysqlError ($faildMessage) {
+        $statusCode = 417;
+        $responseData = $faildMessage;
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $this->setHttpHeaders($requestContentType, $statusCode);
+        $response = $this->encodeJson($responseData);
+        echo $response;
+    }
     public function responseDatas ($rawData, $notFoundRes) {
         // print_r($rawData);
         // print_r($rawData);
@@ -42,6 +50,15 @@
         } else {
             $statusCode = 200;
         }
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $this->setHttpHeaders($requestContentType, $statusCode);
+        $response = $this->encodeJson($rawData);
+        echo $response;
+    }
+    public function responseArticleTypesResult ($rawData) {
+        // print_r($rawData);
+        // print_r($rawData);
+        $statusCode = 200;
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $this->setHttpHeaders($requestContentType, $statusCode);
         $response = $this->encodeJson($rawData);

@@ -25,6 +25,40 @@
 require_once('../Base/MySQL.php');
 Class Article {
     private $articles = array();
+    private $article_types = array(
+        array(
+          "type"=> "HTML",
+          "value"=> "HTML"
+        ),
+        array(
+          "type"=> "PHP",
+          "value"=> "PHP"
+        ),
+        array(
+          "type"=> "JS",
+          "value"=> "JS"
+        ),
+        array(
+          "type"=> "CSS",
+          "value"=> "CSS"
+        ),
+        array(
+          "type"=> "Vue",
+          "value"=> "Vue"
+        ),
+        array(
+          "type"=> "Weex",
+          "value"=> "Weex"
+        ),
+        array(
+          "type"=> "Linux",
+          "value"=> "Linux"
+        ),
+        array(
+          "type"=> "React",
+          "value"=> "React"
+        )
+    );
     public function getAllArticles() {
         $user_sql = "select * from strun_article";
         $mysql = new MySQL();
@@ -42,6 +76,9 @@ Class Article {
         $article_list_temp = $mysql -> getSingleDatas($con, $article_sql);
         $this->articles = $article_list_temp;
         return $this->articles;
+    }
+    public function getArticleType(){
+      return $this->article_types;
     }
     public function insertArticle($userid, $title,$author, $articleintro,$content, $classify) {
 		// print_r($content);

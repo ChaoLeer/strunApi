@@ -61,5 +61,12 @@ class ArticleHandler extends Rest {
         );
         $pubfun -> responseUpdateResult($updateResult, $notFoundRes);
     }
+    public function getArticleType(){
+        $articletypes = new Article();
+        $updateResult = $articletypes->getArticleType();
+        // echo ($updateResult);
+        $pubfun = new PubFun();
+        $pubfun -> responseArticleTypesResult($updateResult);
+    }
 }
 ?>

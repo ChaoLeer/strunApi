@@ -4,15 +4,10 @@ class MySQL{
   public $mysqlState = false;
   function connectSQL () {
     //部署时不带端口
-  	$servername = "主机";
-  	$username = "用户";
-  	$password = "密码";
-  	$dbname = "数据库";
-
-  	$servername = "qdm169152214.my3w.com:3306";
-  	$username = "qdm169152214";
-  	$password = "loveqin277";
-  	$dbname = "qdm169152214_db";
+   	$servername = "主机";
+   	$username = "用户";
+   	$password = "密码";
+   	$dbname = "数据库";
     // 创建连接
     $conn = new mysqli($servername, $username, $password, $dbname);
     // 检测连接
@@ -87,11 +82,9 @@ class MySQL{
   // 查询多条数据
   function getDatas ($conn, $sql) {
     if ($this->mysqlState) {
-      # code...
       // $result = $conn->query($sql);
       $result = mysqli_query($conn, $sql);
-      // print_r($result -> num_rows);
-      if ($result->num_rows > 0) {
+      if (!empty($result -> num_rows) && $result->num_rows > 0) {
         // print_r($result->fetch_assoc());
         $res = $this -> dpDatas($result);
         // 输出数据

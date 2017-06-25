@@ -19,7 +19,7 @@
 //
 // $Id:$
 /*
- * 菜鸟教程 RESTful 演示实例
+ * RESTful
  * RESTful 服务类
 */
 require_once('../Base/MySQL.php');
@@ -59,8 +59,9 @@ Class Article {
           "value"=> "React"
         )
     );
+    // 获取所有文章列表
     public function getAllArticles() {
-        $user_sql = "select * from strun_article";
+        $user_sql = "SELECT ARTICLE_ID,AUTHOR,CLASSIFY,TITLE,ARTICLE_INTRO,USER_ID,CREATE_DATE FROM strun_article ORDER BY CREATE_DATE DESC";
         $mysql = new MySQL();
         $con = $mysql -> connectSQL();
         $user_list_temp = $mysql -> getDatas($con, $user_sql);
@@ -69,6 +70,41 @@ Class Article {
         $this->articles = $user_list_temp;
         return $user_list_temp;
     }
+    // 分页获取
+    public function getAllArticleListByPage($page,$userId,$articleType,$searchInfo) {
+      $start = ($page-1)*10;
+      $end = $page*10;
+      $term = "WHERE";
+      if (!empty($userId)) {
+        $term = $term." USER_ID='".$userId."' ";
+      }
+      if (!empty($articleType)) {
+        if (!empty($userId) || !empty($searchInfo)) {
+          $term = $term." AND";
+        }
+        $term = $term." CLASSIFY='".$articleType."' ";
+      }
+      if (!empty($searchInfo)) {
+        if (!empty($userId) || !empty($articleType)) {
+          $term = $term." AND";
+        }
+        $term =$term." TITLE LIKE '%".$searchInfo."%' OR CLASSIFY LIKE '%".$searchInfo."%' ";
+      }
+      if ($term == "WHERE") {
+        $term = "";
+      }
+      // echo $term;
+      $get_sql = "SELECT ARTICLE_ID,AUTHOR,CLASSIFY,TITLE,ARTICLE_INTRO,USER_ID,CREATE_DATE FROM strun_article ".$term." ORDER BY CREATE_DATE DESC LIMIT ".$start.",".$end;
+      // echo $get_sql;
+      $mysql = new MySQL();
+      $con = $mysql -> connectSQL();
+      $user_list_temp = $mysql -> getDatas($con, $get_sql);
+      // echo "****************()(((********************";
+      // print_r($user_list_temp);
+      $this->articles = $user_list_temp;
+      return $user_list_temp;
+    }
+    // 通过文章id查文章
     public function getArticleByArticleId($id) {
         $article_sql = "SELECT * from strun_article WHERE ARTICLE_ID='".$id."'";
         $mysql = new MySQL();
@@ -77,9 +113,29 @@ Class Article {
         $this->articles = $article_list_temp;
         return $this->articles;
     }
+    // 通过用户id查文章列表
+    public function getArticleListByUserId($id) {
+        $article_sql = "SELECT ARTICLE_ID,AUTHOR,CLASSIFY,TITLE,ARTICLE_INTRO,USER_ID,CREATE_DATE from strun_article WHERE USER_ID='".$id."' ORDER BY CREATE_DATE DESC";
+        $mysql = new MySQL();
+        $con = $mysql -> connectSQL();
+        $article_list_temp = $mysql -> getDatas($con, $article_sql);
+        $this->articles = $article_list_temp;
+        return $this->articles;
+    }
+    // 搜索文章
+    public function searchArticle($searchInfo) {
+        $article_sql = "SELECT ARTICLE_ID,AUTHOR,CLASSIFY,TITLE,ARTICLE_INTRO,USER_ID,CREATE_DATE FROM strun_article WHERE TITLE LIKE '%".$searchInfo."%' OR CLASSIFY LIKE '%".$searchInfo."%' ORDER BY CREATE_DATE DESC";
+        $mysql = new MySQL();
+        $con = $mysql -> connectSQL();
+        $article_list_temp = $mysql -> getDatas($con, $article_sql);
+        $this->articles = $article_list_temp;
+        return $this->articles;
+    }
+    // 获取文章分类
     public function getArticleType(){
       return $this->article_types;
     }
+    // 新增文章
     public function insertArticle($userid, $title,$author, $articleintro,$content, $classify) {
 		// print_r($content);
 
@@ -126,6 +182,7 @@ Class Article {
         $insert_res = $mysql -> insert($con, $insert_sql);
         return $insert_res;
     }
+    // 更新修改文章
     public function updateArticle($articleid,$userid, $title,$author, $articleintro,$content, $classify) {
 		// print_r($content);
 

@@ -23,6 +23,7 @@
 require_once ("../Base/PubFun.php");
 require_once ("Article.php");
 class ArticleHandler extends Rest {
+    // 获取所有文章列表
     public function getAllArticles() {
         $articles = new Article();
         $rawData = $articles->getAllArticles();
@@ -32,6 +33,17 @@ class ArticleHandler extends Rest {
         );
         $pubfun -> responseDatas($rawData, $notFoundRes);
     }
+    // 分页获取
+    public function getAllArticleListByPage($page,$userId,$classify,$searchInfo) {
+      $articles = new Article();
+      $rawData = $articles->getAllArticleListByPage($page,$userId,$classify,$searchInfo);
+      $pubfun = new PubFun();
+      $notFoundRes = array(
+          'error' => 'No articless found!'
+      );
+      $pubfun -> responseDatas($rawData, $notFoundRes);
+    }
+    // 通过文章id查文章
     public function getArticleByArticleId($id) {
         $articles = new Article();
         $rawData = $articles->getArticleByArticleId($id);
@@ -41,6 +53,35 @@ class ArticleHandler extends Rest {
         );
         $pubfun -> responseDatas($rawData, $notFoundRes);
     }
+    // 通过用户id查文章列表
+    public function getArticleListByUserId($id) {
+        $articles = new Article();
+        $rawData = $articles->getArticleListByUserId($id);
+        $pubfun = new PubFun();
+        $notFoundRes = array(
+            'error' => 'No articless found!'
+        );
+        $pubfun -> responseDatas($rawData, $notFoundRes);
+    }
+    // 搜索文章
+    public function searchArticle($searchInfo) {
+        $articles = new Article();
+        $rawData = $articles->searchArticle($searchInfo);
+        $pubfun = new PubFun();
+        $notFoundRes = array(
+            'error' => '没有搜索结果!'
+        );
+        $pubfun -> responseDatas($rawData, $notFoundRes);
+    }
+    // 获取文章分类
+    public function getArticleType(){
+        $articletypes = new Article();
+        $updateResult = $articletypes->getArticleType();
+        // echo ($updateResult);
+        $pubfun = new PubFun();
+        $pubfun -> responseArticleTypesResult($updateResult);
+    }
+    // 新增文章
     public function insertArticle($userid, $title,$author, $articleintro,$content, $classify) {
         $articles = new Article();
         $insertResult = $articles->insertArticle($userid, $title,$author, $articleintro,$content, $classify);
@@ -51,6 +92,7 @@ class ArticleHandler extends Rest {
         );
         $pubfun -> responseInsertResult($insertResult, $notFoundRes);
     }
+    // 更新修改文章
     public function updateArticle($articleid,$userid, $title,$author, $articleintro,$content, $classify) {
         $articles = new Article();
         $updateResult = $articles->updateArticle($articleid,$userid, $title,$author, $articleintro,$content, $classify);
@@ -60,13 +102,6 @@ class ArticleHandler extends Rest {
             'message' => '提交失败！'
         );
         $pubfun -> responseUpdateResult($updateResult, $notFoundRes);
-    }
-    public function getArticleType(){
-        $articletypes = new Article();
-        $updateResult = $articletypes->getArticleType();
-        // echo ($updateResult);
-        $pubfun = new PubFun();
-        $pubfun -> responseArticleTypesResult($updateResult);
     }
 }
 ?>
